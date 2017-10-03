@@ -4,12 +4,14 @@
   {registered, []},
   {applications,
    [kernel,
-    stdlib
+    stdlib,
+    prometheus,
+    opencensus
    ]},
   {env,[]},
   {modules, []},
 
   {maintainers, ["Ilya Khaprov"]},
   {licenses, ["MIT"]},
-  {links, [{"Github", "https://github.com/deadtrickster/opencensus_erlang_prometheus"}]}
+  {links, [{"Github", "https://github.com/deadtrickster/opencensus-erlang-prometheus"}]}
  ]}.
