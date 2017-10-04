@@ -32,7 +32,7 @@ defmodule OpencensusErlangPrometheus.Mixfile do
 
   defp deps do
     [{:prometheus, "~> 3.4", manager: :rebar3},
-     {:opencensus, git: "https://github.com/deadtrickster/opencensus-erlang", branch: "fix-mix-dep"},
+     {:opencensus, git: "https://github.com/deadtrickster/opencensus-erlang", branch: "dev"},
      {:credo, "~> 0.8.7", only: [:dev, :test]},
      {:excoveralls, "~> 0.7.3", only: [:test]}]
   end
