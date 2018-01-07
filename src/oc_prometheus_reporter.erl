@@ -59,7 +59,7 @@ compute_labels(Span, Attributes) ->
 
 observe_span(Span, {Type, MetricName, Attributes}) ->
   Labels = [Span#span.name] ++ compute_labels(Span, Attributes),
-  Type:observe(MetricName, Labels, Span#span.duration).
+  Type:observe(MetricName, Labels, span_duration(Span)).
 
 type_to_module(counter) ->
   prometheus_counter;
@@ -73,3 +73,7 @@ type_to_module(boolean) ->
   prometheus_boolean;
 type_to_module(Type) ->
   Type.
+
+-spec span_duration(opencensus:span()) -> integer().
+span_duration(#span{start_time={StartTime,_}, end_time={EndTime,_}}) ->
+    EndTime - StartTime.
