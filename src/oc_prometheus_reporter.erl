@@ -57,20 +57,23 @@ compute_labels(Span, Attributes) ->
   Map = Span#span.attributes,
   [maps:get(Attribute, Map, "N/A") || Attribute <- Attributes].
 
-observe_span(Span, {Type, MetricName, Attributes}) ->
+observe_span(Span, {MetricType, MetricName, Attributes}) ->
   Labels = [Span#span.name] ++ compute_labels(Span, Attributes),
-  Type:observe(MetricName, Labels, span_duration(Span)).
+  observe_span(MetricType, MetricName, Labels, Span).
+
+observe_span(prometheus_summary, MetricName, Labels, Span) ->
+  prometheus_summary:observe(MetricName, Labels, span_duration(Span));
+observe_span(prometheus_histogram, MetricName, Labels, Span) ->
+  prometheus_histogram:observe(MetricName, Labels, span_duration(Span));
+observe_span(prometheus_counter, MetricName, Labels, _Span) ->
+  prometheus_counter:inc(MetricName, Labels).
 
 type_to_module(counter) ->
   prometheus_counter;
-type_to_module(gauge) ->
-  prometheus_gauge;
 type_to_module(summary) ->
   prometheus_summary;
 type_to_module(histogram) ->
   prometheus_histogram;
-type_to_module(boolean) ->
-  prometheus_boolean;
 type_to_module(Type) ->
   Type.
 
