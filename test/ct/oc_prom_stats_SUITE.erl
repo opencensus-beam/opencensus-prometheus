@@ -42,7 +42,7 @@ full(_Config) ->
   ocp:start_trace(),
 
   prometheus_registry:clear(),
-  
+
   ok = oc_stat_view:subscribe(
          "video_count",
          "number of videos processed processed over time",
@@ -66,6 +66,13 @@ full(_Config) ->
          'my.org/measures/video_size_sum',
          {oc_prometheus_histogram, [{buckets, [0, 1 bsl 16, 1 bsl 32]}]}),
 
+  ok = oc_stat_view:subscribe(
+         "last_video_size",
+         "last processed video size",
+         [#{ctag => value}],
+         'my.org/measures/video_size_sum',
+         oc_prometheus_gauge),
+
   oc_stat:record('my.org/measures/video_count', #{type=>"mpeg", category=>"category1"}, 1),
   oc_stat:record('my.org/measures/video_count', #{type=>"mpeg", category=>"category1"}, 1),
   oc_stat:record('my.org/measures/video_size_sum', #{type=>"mpeg", category=>"category1"}, 1024),
@@ -74,6 +81,7 @@ full(_Config) ->
   ?assertMatch(2, prometheus_counter:value("video_count", ["mpeg"])),
   ?assertMatch({2, 5120}, prometheus_summary:value("video_sum", ["category1", "mpeg"])),
   ?assertMatch({[0, 2, 0, 0], 5120}, prometheus_histogram:value("video_size", [])),
+  ?assertMatch(4096, prometheus_gauge:value("last_video_size", [])),
 
   ?assertMatch(<<"# TYPE video_count counter
 # HELP video_count number of videos processed processed over time
@@ -90,5 +98,8 @@ video_size_bucket{ctag=\"value\",le=\"4294967296\"} 2
 video_size_bucket{ctag=\"value\",le=\"+Inf\"} 2
 video_size_count{ctag=\"value\"} 2
 video_size_sum{ctag=\"value\"} 5120
+# TYPE last_video_size gauge
+# HELP last_video_size last processed video size
+last_video_size{ctag=\"value\"} 4096
 
 ">>, prometheus_text_format:format()).
