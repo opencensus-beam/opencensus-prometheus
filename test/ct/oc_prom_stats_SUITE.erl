@@ -39,8 +39,6 @@ end_per_testcase(_, _Config) ->
 %% ===================================================================
 
 full(_Config) ->
-  ocp:start_trace(),
-
   prometheus_registry:clear(),
 
   ok = oc_stat_view:subscribe(
@@ -73,10 +71,14 @@ full(_Config) ->
          'my.org/measures/video_size_sum',
          oc_prometheus_gauge),
 
-  oc_stat:record('my.org/measures/video_count', #{type=>"mpeg", category=>"category1"}, 1),
-  oc_stat:record('my.org/measures/video_count', #{type=>"mpeg", category=>"category1"}, 1),
-  oc_stat:record('my.org/measures/video_size_sum', #{type=>"mpeg", category=>"category1"}, 1024),
-  oc_stat:record('my.org/measures/video_size_sum', #{type=>"mpeg", category=>"category1"}, 4096),
+  Ctx = oc_tags:new_ctx(ctx:new(), #{type => "mpeg",
+                                     category => "category1"}),
+
+  oc_stat:record('my.org/measures/video_count', Ctx, 1),
+  oc_stat:record('my.org/measures/video_count', Ctx, 1),
+  oc_stat:record('my.org/measures/video_size_sum', Ctx, 1024),
+  oc_stat:record('my.org/measures/video_size_sum', Ctx, 4096),
+
 
   ?assertMatch(2, prometheus_counter:value("video_count", ["mpeg"])),
   ?assertMatch({2, 5120}, prometheus_summary:value("video_sum", ["category1", "mpeg"])),

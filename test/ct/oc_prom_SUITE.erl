@@ -51,12 +51,12 @@ end_per_testcase(_, _Config) ->
 prometheus_reporter_default(_Config) ->
 
   SpanName1 = <<"span-1">>,
-  Span1 = opencensus:start_span(SpanName1, opencensus:generate_trace_id()),
+  Span1 = oc_trace:start_span(SpanName1, undefined),
 
   ChildSpanName1 = <<"child-span-1">>,
-  ChildSpan1 = opencensus:start_span(ChildSpanName1, Span1),
-  opencensus:finish_span(ChildSpan1),
-  opencensus:finish_span(Span1),
+  ChildSpan1 = oc_trace:start_span(ChildSpanName1, Span1, #{}),
+  oc_trace:finish_span(ChildSpan1),
+  oc_trace:finish_span(Span1),
 
   timer:sleep(1000),
 
@@ -66,13 +66,13 @@ prometheus_reporter_default(_Config) ->
 prometheus_reporter_labels(_Config) ->
 
   SpanName1 = <<"span-1">>,
-  Span1 = opencensus:start_span(SpanName1, opencensus:generate_trace_id(), undefined, #{<<"op_name">> => "test"}),
+  Span1 = oc_trace:start_span(SpanName1, undefined, #{attributes => #{<<"op_name">> => "test"}}),
   
   ChildSpanName1 = <<"child-span-1">>,
-  ChildSpan1 = opencensus:start_span(ChildSpanName1, Span1, #{<<"cname">> => "github"}),
+  ChildSpan1 = oc_trace:start_span(ChildSpanName1, Span1, #{attributes => #{<<"cname">> => "github"}}),
   
-  opencensus:finish_span(ChildSpan1),
-  opencensus:finish_span(Span1),
+  oc_trace:finish_span(ChildSpan1),
+  oc_trace:finish_span(Span1),
 
   timer:sleep(1000),
 
@@ -82,14 +82,14 @@ prometheus_reporter_labels(_Config) ->
 prometheus_reporter_histogram(_Config) ->
 
   SpanName1 = <<"span-1">>,
-  Span1 = opencensus:start_span(SpanName1, opencensus:generate_trace_id(), undefined,  #{<<"op_name">> => "test"}),
+  Span1 = oc_trace:start_span(SpanName1, undefined, #{attributes => #{<<"op_name">> => "test"}}),
   
   ChildSpanName1 = <<"child-span-1">>,
-  ChildSpan1 = opencensus:start_span(ChildSpanName1, Span1, #{<<"cname">> => "github"}),
+  ChildSpan1 = oc_trace:start_span(ChildSpanName1, Span1, #{attributes => #{<<"cname">> => "github"}}),
   timer:sleep(1500),
-  opencensus:finish_span(ChildSpan1),
+  oc_trace:finish_span(ChildSpan1),
   timer:sleep(1000),
-  opencensus:finish_span(Span1),
+  oc_trace:finish_span(Span1),
 
   timer:sleep(1000),
 
