@@ -3,7 +3,7 @@ defmodule OpencensusErlangPrometheus.Mixfile do
 
   def project do
     [app: :opencensus_erlang_prometheus,
-     version: "0.0.1",
+     version: "0.1.0",
      elixir: "~> 1.4",
      deps: deps(),
      description: description(),
@@ -31,9 +31,10 @@ defmodule OpencensusErlangPrometheus.Mixfile do
   end
 
   defp deps do
-    [{:prometheus, "~> 3.4", manager: :rebar3},
-     {:opencensus, git: "https://github.com/deadtrickster/opencensus-erlang", branch: "dev"},
-     {:credo, "~> 0.8.7", only: [:dev, :test]},
-     {:excoveralls, "~> 0.7.3", only: [:test]}]
+    [{:prometheus, "~> 4.1"},
+     {:opencensus, "~> 0.3"},
+
+     # test
+     {:credo, "~> 0.8.7", only: [:dev, :test]}]
   end
 end
