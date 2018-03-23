@@ -27,7 +27,7 @@ defmodule OpencensusErlangPrometheus.Mixfile do
     [maintainers: ["Ilya Khaprov"],
      licenses: ["MIT"],
      links: %{"GitHub" => "https://github.com/deadtrickster/opencensus-erlang-prometheus"},
-     files: ["priv", "src", "README.md", "rebar.config"]]
+     files: ["src", "README.md", "rebar.config"]]
   end
 
   defp deps do
