@@ -3,7 +3,7 @@ defmodule OpencensusErlangPrometheus.Mixfile do
 
   def project do
     [app: :opencensus_erlang_prometheus,
-     version: "0.1.1",
+     version: "0.2.0",
      elixir: "~> 1.4",
      deps: deps(),
      description: description(),

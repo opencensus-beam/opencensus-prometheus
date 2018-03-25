@@ -49,5 +49,6 @@ MIT
 
 
 <table width="100%" border="0" summary="list of modules">
-<tr><td><a href="https://github.com/deadtrickster/opencensus-erlang-prometheus/blob/master/doc/oc_prometheus_reporter.md" class="module">oc_prometheus_reporter</a></td></tr></table>
+<tr><td><a href="https://github.com/deadtrickster/opencensus-erlang-prometheus/blob/master/doc/oc_prometheus_reporter.md" class="module">oc_prometheus_reporter</a></td></tr>
+<tr><td><a href="https://github.com/deadtrickster/opencensus-erlang-prometheus/blob/master/doc/oc_stat_exporter_prometheus.md" class="module">oc_stat_exporter_prometheus</a></td></tr></table>
 
