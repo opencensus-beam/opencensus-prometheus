@@ -1,6 +1,6 @@
 
 
-# Module oc_prometheus_reporter #
+# Module oc_reporter_prometheus #
 * [Function Index](#index)
 * [Function Details](#functions)
 

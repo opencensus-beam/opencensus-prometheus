@@ -49,6 +49,6 @@ MIT
 
 
 <table width="100%" border="0" summary="list of modules">
-<tr><td><a href="oc_prometheus_reporter.md" class="module">oc_prometheus_reporter</a></td></tr>
+<tr><td><a href="oc_reporter_prometheus.md" class="module">oc_reporter_prometheus</a></td></tr>
 <tr><td><a href="oc_stat_exporter_prometheus.md" class="module">oc_stat_exporter_prometheus</a></td></tr></table>
 

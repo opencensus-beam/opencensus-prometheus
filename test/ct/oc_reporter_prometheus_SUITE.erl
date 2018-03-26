@@ -1,4 +1,4 @@
--module(oc_prom_SUITE).
+-module(oc_reporter_prometheus_SUITE).
 
 -compile(export_all).
 
@@ -8,9 +8,9 @@
 -include_lib("opencensus/include/opencensus.hrl").
 
 all() ->
-  [prometheus_reporter_default%% ,
-   %% prometheus_reporter_labels,
-   %% prometheus_reporter_histogram
+  [prometheus_reporter_default,
+   prometheus_reporter_labels,
+   prometheus_reporter_histogram
   ].
 
 init_per_suite(Config) ->
@@ -21,18 +21,18 @@ end_per_suite(_Config) ->
   ok.
 
 init_per_testcase(prometheus_reporter_default, Config) ->
-  application:set_env(opencensus, reporter, {oc_prometheus_reporter, []}),
+  application:set_env(opencensus, reporter, {oc_reporter_prometheus, []}),
   {ok, _} = application:ensure_all_started(opencensus_erlang_prometheus),
   Config;
 init_per_testcase(prometheus_reporter_labels, Config) ->
   application:set_env(opencensus, reporter,
-                      {oc_prometheus_reporter, [{name, span_with_labels},
+                      {oc_reporter_prometheus, [{name, span_with_labels},
                                                 {labels, [op_name, {common_name, <<"cname">>}]}]}),
   {ok, _} = application:ensure_all_started(opencensus_erlang_prometheus),
   Config;
 init_per_testcase(prometheus_reporter_histogram, Config) ->
   application:set_env(opencensus, reporter,
-                      {oc_prometheus_reporter, [{type, histogram},
+                      {oc_reporter_prometheus, [{type, histogram},
                                                 {name, span_histogram_seconds},
                                                 {buckets, [0, 1, 2]}]}),
   {ok, _} = application:ensure_all_started(opencensus_erlang_prometheus),

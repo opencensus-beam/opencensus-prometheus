@@ -1,4 +1,4 @@
--module(oc_prometheus_reporter).
+-module(oc_reporter_prometheus).
 
 -include_lib("opencensus/include/opencensus.hrl").
 
