@@ -13,7 +13,8 @@ collect_mf(_Registry, Callback) ->
 deregister_cleanup(_Registry) ->
   ok.
 
--spec view_data_to_mf(oc_stat_view:view_data()) -> prometheus_model:'MetricFamily'().
+-spec view_data_to_mf(oc_stat_view:view_data()) ->
+                         prometheus_model:'MetricFamily'().
 view_data_to_mf(#{name := Name,
                   description := Description,
                   ctags := CTags,
@@ -22,7 +23,7 @@ view_data_to_mf(#{name := Name,
                             rows := Rows}}) ->
   FullRows = augment_rows_tags(Rows, Tags, CTags),
   Metrics = rows_to_metrics(Type, FullRows),
-  prometheus_model_helpers:create_mf(Name, Description, to_prometheus_type(Type), Metrics).
+  prometheus_model_helpers:create_mf(Name, Description, to_prom_type(Type), Metrics).
 
 augment_rows_tags(Rows, Tags, CTags) ->
   [{maps:to_list(maps:merge(CTags, maps:from_list(lists:zip(Tags, TagsV)))), Value}
@@ -48,11 +49,11 @@ sum_bucket_counters([], LAcc, _CAcc) ->
 sum_bucket_counters([{Bucket, Counter} | Counters], LAcc, CAcc) ->
   sum_bucket_counters(Counters, LAcc ++ [{Bucket, CAcc + Counter}], CAcc + Counter).
 
-to_prometheus_type(latest) ->
+to_prom_type(latest) ->
   gauge;
-to_prometheus_type(count) ->
+to_prom_type(count) ->
   counter;
-to_prometheus_type(sum) ->
+to_prom_type(sum) ->
   summary;
-to_prometheus_type(distribution) ->
+to_prom_type(distribution) ->
   histogram.

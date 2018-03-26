@@ -67,10 +67,10 @@ prometheus_reporter_labels(_Config) ->
 
   SpanName1 = <<"span-1">>,
   Span1 = oc_trace:start_span(SpanName1, undefined, #{attributes => #{<<"op_name">> => "test"}}),
-  
+
   ChildSpanName1 = <<"child-span-1">>,
   ChildSpan1 = oc_trace:start_span(ChildSpanName1, Span1, #{attributes => #{<<"cname">> => "github"}}),
-  
+
   oc_trace:finish_span(ChildSpan1),
   oc_trace:finish_span(Span1),
 
@@ -83,7 +83,7 @@ prometheus_reporter_histogram(_Config) ->
 
   SpanName1 = <<"span-1">>,
   Span1 = oc_trace:start_span(SpanName1, undefined, #{attributes => #{<<"op_name">> => "test"}}),
-  
+
   ChildSpanName1 = <<"child-span-1">>,
   ChildSpan1 = oc_trace:start_span(ChildSpanName1, Span1, #{attributes => #{<<"cname">> => "github"}}),
   timer:sleep(1500),

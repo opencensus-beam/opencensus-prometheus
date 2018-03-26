@@ -78,5 +78,5 @@ type_to_module(Type) ->
   Type.
 
 -spec span_duration(opencensus:span()) -> integer().
-span_duration(#span{start_time={StartTime,_}, end_time={EndTime,_}}) ->
+span_duration(#span{start_time={StartTime, _}, end_time={EndTime, _}}) ->
     EndTime - StartTime.

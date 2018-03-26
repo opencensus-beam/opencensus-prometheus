@@ -46,27 +46,27 @@ end_per_testcase(_, _Config) ->
 
 prometheus_collector(_Config) ->
   {ok, _} = oc_stat_view:subscribe(
-         "video_count",
-         'my.org/measures/video_count',
-         "number of videos processed processed over time",
-         [#{ctag => value},
-          type],
-         oc_stat_aggregation_count),
+              "video_count",
+              'my.org/measures/video_count',
+              "number of videos processed processed over time",
+              [#{ctag => value},
+               type],
+              oc_stat_aggregation_count),
 
   {ok, _} = oc_stat_view:subscribe(
-         "video_sum",
-         'my.org/measures/video_size_sum',
-         "video_size_sum",
-         [#{sum_tag => value},
-          type, category],
-         oc_stat_aggregation_sum),
+              "video_sum",
+              'my.org/measures/video_size_sum',
+              "video_size_sum",
+              [#{sum_tag => value},
+               type, category],
+              oc_stat_aggregation_sum),
 
   {ok, _} = oc_stat_view:subscribe(
-         "last_video_size",
-         'my.org/measures/video_size_sum',
-         "last processed video size",
-         [#{ctag => value}],
-         oc_stat_aggregation_latest),
+              "last_video_size",
+              'my.org/measures/video_size_sum',
+              "last processed video size",
+              [#{ctag => value}],
+              oc_stat_aggregation_latest),
 
   Tags = #{type => "mpeg",
            category => "category1"},
