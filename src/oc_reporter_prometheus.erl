@@ -12,6 +12,7 @@
 %% ===================================================================
 
 init(Config) ->
+  application:ensure_all_started(prometheus),
   Type = config_metric_type(Config),
   Name = config_metric_name(Config),
   Labels = config_metric_labels(Config),
