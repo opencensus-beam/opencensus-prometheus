@@ -60,7 +60,7 @@ to_prom_type(distribution) ->
 
 %% replace all non-alphanumeric characters with underscores
 sanitize(String) ->
-    case re:replace(String, "[^[:alpha:][:digit:]]+", "_", [global]) of
+    case re:replace(String, "[^[:alpha:][:digit:]:]+", "_", [global]) of
         [$_ | _]=S ->
             ["key", S];
         [D | _]=S when D >= 48 andalso D =< 57->
