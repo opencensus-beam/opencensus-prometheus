@@ -23,7 +23,7 @@ view_data_to_mf(#{name := Name,
                             rows := Rows}}) ->
   FullRows = augment_rows_tags(Rows, Tags, CTags),
   Metrics = rows_to_metrics(Type, FullRows),
-  prometheus_model_helpers:create_mf(Name, Description, to_prom_type(Type), Metrics).
+  prometheus_model_helpers:create_mf(sanitize(Name), Description, to_prom_type(Type), Metrics).
 
 augment_rows_tags(Rows, Tags, CTags) ->
   [{maps:to_list(maps:merge(CTags, maps:from_list(lists:zip(Tags, TagsV)))), Value}
@@ -57,3 +57,14 @@ to_prom_type(sum) ->
   summary;
 to_prom_type(distribution) ->
   histogram.
+
+%% replace all non-alphanumeric characters with underscores
+sanitize(String) ->
+    case re:replace(String, "[^[:alpha:][:digit:]:]+", "_", [global]) of
+        [$_ | _]=S ->
+            ["key", S];
+        [D | _]=S when D >= 48 andalso D =< 57->
+            ["key_", S];
+        S ->
+            S
+    end.
