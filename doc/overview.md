@@ -1,6 +1,6 @@
 @copyright 2018 Ilya Khaprov <<i.khaprov@gmail.com>>.
 @title Opencensus Prometheus integration for Erlang/BEAM
-@version 0.3.1
+@version 0.3.2
 
 @doc
 
